@@ -1,0 +1,16 @@
+actions:
+- name: signin
+  definition:
+    kind: ""
+    handler: http://192.168.0.24:4000/signin
+- name: signup
+  definition:
+    kind: synchronous
+    handler: http://192.168.0.24:4000/signup
+custom_types:
+  enums: []
+  input_objects: []
+  objects:
+  - name: signupOutput
+  - name: signinOutput
+  scalars: []
