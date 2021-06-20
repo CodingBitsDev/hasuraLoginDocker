@@ -13,7 +13,7 @@ RUN apt-get install npm -y
 
 EXPOSE 4000
 
-COPY nodeLogin /root/nodeLogin
+COPY . /root/nodeLogin
 
 WORKDIR /root/nodeLogin
 RUN pwd
