@@ -1,4 +1,4 @@
-import { HASURA_HOST, HASURA_PORT, HASURA_SECRET } from "../consts.js"
+import { HASURA_HOST, HASURA_PORT, HASURA_SECRET, JWT_SECRET } from "../consts.js"
 
 const fetch = require("node-fetch");
 const bcrypt = require("bcryptjs");
@@ -76,7 +76,7 @@ const handler = async (req, res) => {
     exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60),
   }
   
-  const token = jwt.sign(tokenContents, "79s2LqwF8jFUQ9Ka97HUrsz4G5Wne4AEhTXo7ANZeQh55HtJU9mnhjRBTDusXbKCw6h6bjyfbHR2y6G7")
+  const token = jwt.sign(tokenContents, JWT_SECRET)
 
   // success
   return res.json({
