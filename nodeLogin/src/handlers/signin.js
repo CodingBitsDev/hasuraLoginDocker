@@ -1,3 +1,5 @@
+import { HASURA_HOST, HASURA_PORT, HASURA_SECRET } from "../consts.js"
+
 const fetch = require("node-fetch");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -17,11 +19,11 @@ query ($email:String!)
 // execute the parent operation in Hasura
 const execute = async (variables) => {
   const fetchResponse = await fetch(
-    "http://localhost:8080/v1/graphql",
+    `http://${HASURA_HOST}:${HASURA_PORT}/v1/graphql`,
     {
       method: 'POST',
       headers: {
-       'x-hasura-admin-secret' : 'renjicretAdmin'
+       'x-hasura-admin-secret' : HASURA_SECRET
       },
       body: JSON.stringify({
         query: HASURA_OPERATION,
@@ -50,9 +52,12 @@ const handler = async (req, res) => {
   }
   
   let userData = data.users_by_pk; 
+  if (!userData){
+    return notFoundError(res);
+  }
   let passwordRight = await bcrypt.compareSync(userData.email.toLowerCase() + password, userData.password)
   
-  if (!passwordRight) return res.status(404).json("Email or password wrong");
+  if (!passwordRight) return notFoundError(res);
   
   const tokenContents = {
     sub: userData.id.toString(),
@@ -82,3 +87,10 @@ const handler = async (req, res) => {
 };
 
 module.exports = handler
+
+function notFoundError(res){
+  return res.status(401).json({
+    message: "Email or password wrong",
+    code: "401"
+  });
+}

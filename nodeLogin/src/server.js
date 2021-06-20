@@ -3,11 +3,11 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
-const PORT = process.env.PORT || 3000;
+import { PORT, HASURA_HOST, HASURA_PORT } from "./consts.js"
 
 app.use(bodyParser.json());
 
-console.log("STARTING AT PORT " + PORT)
+console.log("STARTING AT PORT" , PORT, {HASURA_PORT, HASURA_HOST})
 app.post('/:route', async (req, res) => {
   try{
     const handler = require(`./handlers/${req.params.route}`)

@@ -1,6 +1,9 @@
+import { HASURA_HOST, HASURA_PORT, HASURA_SECRET } from "../consts.js"
+
 const fetch = require("node-fetch");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+
 
 const HASURA_OPERATION = `
 mutation ($name: String!, $email: String!, $password: String!){
@@ -17,11 +20,11 @@ mutation ($name: String!, $email: String!, $password: String!){
 // execute the parent operation in Hasura
 const execute = async (variables) => {
   const fetchResponse = await fetch(
-    "http://localhost:8080/v1/graphql",
+    `http://${HASURA_HOST}:${HASURA_PORT}/v1/graphql`,
     {
       method: 'POST',
       headers: {
-       'x-hasura-admin-secret' : 'renjicretAdmin'
+       'x-hasura-admin-secret' : HASURA_SECRET
       },
       body: JSON.stringify({
         query: HASURA_OPERATION,
@@ -49,6 +52,13 @@ const handler = async (req, res) => {
 
   // if Hasura operation errors, then throw error
   if (errors) {
+    if (errors[0].message == "Uniqueness violation. duplicate key value violates unique constraint \"users_email_key\""){
+      return res.status(400).json({
+        message: "Email already exists",
+        code: "400"
+      });
+    }
+
     return res.status(400).json(errors[0])
   }
   
