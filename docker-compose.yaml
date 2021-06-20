@@ -16,6 +16,7 @@ services:
       HASURA_HOST: graphql-engine
       HASURA_SECRET: renjicretAdmin
       HASURA_PORT: 8080
+      JWT_SECRET: "HASURA_JWT_TOKEN_SECRET"
   graphql-engine:
     image: hasura/graphql-engine:v1.3.3
     ports:
@@ -33,6 +34,7 @@ services:
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       ## uncomment next line to set an admin secret
       HASURA_GRAPHQL_ADMIN_SECRET: renjicretAdmin
+      HASURA_GRAPHQL_JWT_SECRET: "HASURA_JWT_TOKEN_SECRET"
 volumes:
   db_data:
 
