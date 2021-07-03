@@ -3,6 +3,8 @@ Prebuild for a Graphql databse with already working role management and login ha
 
 All set up with the use of Docker an Hasura, paired with a node Express server.
 
+I'm talking in more detail about how this works and how it was created in [this blog post](https://coding-bits.net/blog/hasura-login-docker).
+
 ## How to use?
 
 1. Fork this repository for whatever backend project you need
